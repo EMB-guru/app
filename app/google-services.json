@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "336362881062",
+    "project_id": "embgurufirebase",
+    "storage_bucket": "embgurufirebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336362881062:android:a0e26b929ff2cf74f8e6e7",
+        "android_client_info": {
+          "package_name": "com.embguru.design"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "336362881062-2opbsb1c4ic06ta6sp23qs3a25nj1lqr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNIB8Dy2f4CxpYYNxgUXhlYALiSP8Qqiw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "336362881062-2opbsb1c4ic06ta6sp23qs3a25nj1lqr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
