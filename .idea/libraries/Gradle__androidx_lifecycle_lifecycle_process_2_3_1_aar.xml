@@ -2,7 +2,6 @@
   <library name="Gradle: androidx.lifecycle:lifecycle-process:2.3.1@aar">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/eb0790874893a8136f72dd76e8e3c067/transformed/lifecycle-process-2.3.1/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/eb0790874893a8136f72dd76e8e3c067/transformed/lifecycle-process-2.3.1/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/eb0790874893a8136f72dd76e8e3c067/transformed/lifecycle-process-2.3.1/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />

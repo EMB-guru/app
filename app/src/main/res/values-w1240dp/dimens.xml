@@ -1,3 +1,5 @@
 <resources>
  <dimen name="activity_horizontal_margin">200dp</dimen>
+ <dimen name="big">11pt</dimen>
+ <dimen name="button">8pt</dimen>
 </resources>

@@ -4,14 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
-   <ImageView
-       android:layout_width="100pt"
-       android:layout_height="wrap_content"
-       app:srcCompat="@drawable/logo"
-      />
 
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerInParent="true"
+        app:srcCompat="@drawable/dot_background"
+        android:scaleType="center"/>
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:srcCompat="@drawable/home_page_logo"
+        />
 
 </RelativeLayout>

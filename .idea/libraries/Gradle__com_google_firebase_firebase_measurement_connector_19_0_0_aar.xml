@@ -2,7 +2,6 @@
   <library name="Gradle: com.google.firebase:firebase-measurement-connector:19.0.0@aar">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/06dc0f71c8b3d09144d9cf2a5f37cfe1/transformed/firebase-measurement-connector-19.0.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/06dc0f71c8b3d09144d9cf2a5f37cfe1/transformed/firebase-measurement-connector-19.0.0/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/06dc0f71c8b3d09144d9cf2a5f37cfe1/transformed/firebase-measurement-connector-19.0.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
