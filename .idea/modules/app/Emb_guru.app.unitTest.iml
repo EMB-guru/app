@@ -129,6 +129,7 @@
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-javalite/3.17.3/a07accfe99ff27e871490cf29fb0d8b0249de320/protobuf-javalite-3.17.3.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.12.1/dc6d02e4e68514eff5631963e28ca7742ac69efe/okhttp-3.12.1.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.15.0/bc28b5a964c8f5721eb58ee3f3c47a9bcbf4f4d8/okio-1.15.0.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/c618012d825cd1e61c4c5499d03623ff/transformed/pinview-1.4.4-api.jar</arg>
                 <arg>$USER_HOME$/Library/Android/sdk/platforms/android-33/android.jar</arg>
                 <arg>$USER_HOME$/Library/Android/sdk/build-tools/30.0.3/core-lambda-stubs.jar</arg>
               </args>
@@ -269,6 +270,7 @@
     <orderEntry type="library" scope="TEST" name="Gradle: com.google.firebase:protolite-well-known-types:18.0.0@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.google.firebase:firebase-analytics-ktx:21.2.0@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.google.firebase:firebase-common-ktx:20.3.0@aar" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: io.github.chaosleung:pinview:1.4.4@aar" level="project" />
   </component>
   <component name="TestModuleProperties" production-module="Emb_guru.app.main" />
 </module>

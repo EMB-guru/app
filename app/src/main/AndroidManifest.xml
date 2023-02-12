@@ -29,6 +29,9 @@
             android:name=".HomePage"
             android:exported="false" />
         <activity
+            android:name=".Otp"
+            android:exported="false" />
+        <activity
             android:name=".IntrestPage"
             android:exported="false" />
         <activity

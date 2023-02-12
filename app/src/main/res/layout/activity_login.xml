@@ -1,9 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".Login">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+   <ImageView
+       android:layout_width="330dp"
+       android:layout_height="700dp"
+       android:scaleType="fitXY"
+       android:src="@drawable/login_icon"/>
+
+    <LinearLayout
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="80dp"
+        android:layout_marginTop="150dp"
+        android:background="@drawable/logo_icon" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="30dp"
+        android:orientation="vertical"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="60dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome to EMBGURU!"
+            android:textStyle="bold"
+            android:textColor="@color/teal_900"
+            android:textSize="10pt"/>
+
+        <EditText
+            android:id="@+id/mobileNumber"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/input_background"
+            android:hint="Mobile Number"
+            android:inputType="number"
+            android:textColor="@color/teal_900"
+            android:textColorHint="@color/teal_700"
+            android:padding="12dp"
+            android:textSize="8pt"
+            android:layout_marginTop="25dp"/>
+
+        <LinearLayout
+            android:onClick="onSendOtpClick"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@drawable/button_background"
+            android:layout_marginTop="40dp"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Send OTP"
+                android:textColor="@color/white"
+                android:textSize="@dimen/button"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:padding="8dp"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

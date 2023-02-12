@@ -1,9 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
     tools:context=".RoleSelection">
+    <LinearLayout
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:background="@drawable/logo_icon" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:gravity="center_horizontal"
+        android:layout_marginEnd="30dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Your Role"
+            android:textStyle="bold"
+            android:textColor="@color/teal_900"
+            android:textSize="10pt"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You cannot update a role
+after confirmation"
+            android:gravity="center"
+            android:layout_marginEnd="50dp"
+            android:layout_marginStart="50dp"
+            android:textColor="@color/teal_700"
+            android:textSize="@dimen/sub_line"
+            />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:id="@+id/DesignerField"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/active_feild"
+            android:layout_marginTop="40dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:onClick="onDesignerClick"
+            >
+            <ImageView
+                android:id="@+id/useIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/active_user_icon"
+                android:layout_marginStart="20dp"
+                />
+            <TextView
+                android:id="@+id/DesignerText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Designer"
+                android:textColor="@color/purple_200"
+                android:textSize="@dimen/button"
+                android:padding="14dp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ManufacturerField"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/disactive_feild"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:onClick="onManufacturerClick"
+            >
+            <ImageView
+                android:id="@+id/ManuFactureIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/deactive_factory"
+
+                />
+            <TextView
+                android:id="@+id/ManufacturerText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Manufacturer"
+                android:textColor="@color/teal_900"
+                android:textSize="@dimen/button"
+                android:padding="14dp"
+                />
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:onClick="onSendOtpClick"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@drawable/button_background"
+            android:layout_marginTop="100dp"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Next"
+                android:textColor="@color/white"
+                android:textSize="@dimen/button"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:padding="8dp"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

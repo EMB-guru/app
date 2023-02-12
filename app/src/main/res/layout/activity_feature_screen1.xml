@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginTop="15dp"
-            android:layout_marginBottom="30pt"
+            android:layout_marginBottom="20pt"
             >
             <LinearLayout
                 android:id="@+id/dot_1"
@@ -60,7 +60,7 @@
             android:textColor="@color/purple_200"
             android:gravity="center_horizontal"
             android:layout_weight="1"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:textStyle="bold"
             android:textSize="@dimen/big"
            />
@@ -103,8 +103,6 @@
                     android:textSize="@dimen/button"
                     android:gravity="center"
                     android:padding="8dp"
-
-
                     />
             </LinearLayout>
 
