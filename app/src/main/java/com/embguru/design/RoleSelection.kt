@@ -1,5 +1,6 @@
 package com.embguru.design
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -32,6 +33,12 @@ class RoleSelection : AppCompatActivity() {
 
     }
 
+    private fun goOnNextPage(){
+        val changePage = Intent(this, CreateAccount::class.java)
+        startActivity(changePage)
+    }
+
+
     /** on button Click Handler */
     fun onDesignerClick(view: View) {
         DesignerField?.background= AppCompatResources.getDrawable(applicationContext,R.drawable.active_feild)
@@ -52,4 +59,9 @@ class RoleSelection : AppCompatActivity() {
         useIcon?.background= AppCompatResources.getDrawable(applicationContext,R.drawable.inactive_user_icon)
         DesignerText?.setTextColor(AppCompatResources.getColorStateList(applicationContext,R.color.teal_900))
     }
+
+    fun onSendNextClick(view: View) {
+        goOnNextPage()
+    }
+
 }

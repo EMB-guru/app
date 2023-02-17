@@ -1,9 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
     tools:context=".IntrestPage">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/logo_icon" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:gravity="center_horizontal"
+        android:layout_marginEnd="30dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Your choose"
+            android:textStyle="bold"
+            android:textColor="@color/teal_900"
+            android:textSize="10pt"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please select your work  preference"
+            android:gravity="center"
+            android:layout_marginEnd="50dp"
+            android:layout_marginStart="50dp"
+            android:textColor="@color/teal_700"
+            android:textSize="@dimen/sub_line"
+            />
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="50dp"
+          android:orientation="horizontal"
+          >
+          <LinearLayout
+              android:id="@+id/skillOne"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:padding="10dp"
+              android:gravity="center"
+              android:onClick="skillOneClick"
+              android:layout_marginEnd="5dp"
+              android:background="@drawable/active_feild"
+              >
+             <TextView
+                 android:id="@+id/skillOneText"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textColor="@color/purple_200"
+                 android:text="Skill 1"/>
+          </LinearLayout>
+
+          <LinearLayout
+              android:id="@+id/skillTwo"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:padding="10dp"
+              android:gravity="center"
+              android:onClick="skillTwoClick"
+              android:layout_marginStart="5dp"
+              android:background="@drawable/disactive_feild"
+              >
+              <TextView
+                  android:id="@+id/skillTwoText"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Skill 2"/>
+          </LinearLayout>
+      </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            >
+            <LinearLayout
+                android:id="@+id/skillThree"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:gravity="center"
+                android:onClick="skillThreeClick"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/active_feild"
+                >
+                <TextView
+                    android:id="@+id/skillThreeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Skill 3"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/skillFour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_marginStart="5dp"
+                android:onClick="skillFourClick"
+                android:background="@drawable/disactive_feild"
+                >
+                <TextView
+                    android:id="@+id/skillFourText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Skill 4"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            >
+            <LinearLayout
+                android:id="@+id/skillFive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:gravity="center"
+                android:onClick="skillFiveClick"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/active_feild"
+                >
+                <TextView
+                    android:id="@+id/skillFiveText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Skill 5"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/skillSix"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:gravity="center"
+                android:onClick="skillSixClick"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/disactive_feild"
+                >
+                <TextView
+                    android:id="@+id/skillSixText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Skill 6"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:onClick="onSendNextClick"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@drawable/button_background"
+            android:layout_marginTop="100dp"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Next"
+                android:textColor="@color/white"
+                android:textSize="@dimen/button"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:padding="8dp"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

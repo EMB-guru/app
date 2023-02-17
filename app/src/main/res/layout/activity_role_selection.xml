@@ -101,7 +101,7 @@ after confirmation"
 
 
         <LinearLayout
-            android:onClick="onSendOtpClick"
+            android:onClick="onSendNextClick"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"

@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         }, 1000)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val changePage = Intent(this, Feature_Screen_1::class.java)
+            val changePage = Intent(this, HomePage::class.java)
             startActivity(changePage)
         }, 3000)
 
