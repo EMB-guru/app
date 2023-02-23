@@ -6,9 +6,182 @@
     tools:context=".RequrmentFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:context=".HomePage">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="20dp"
+            android:background="#E5DAF9"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="10pt"
+                android:layout_height="10pt"
+                android:src="@drawable/back_arrow_icon"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/purple_200"
+                android:textSize="9pt"
+                android:text="Requirement"/>
+
+
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="What is your requirement ? "
+                    android:textStyle="bold"
+
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:layout_marginTop="10pt"
+                    android:textColor="@color/teal_900"
+                    android:textSize="10pt"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="After Creating requirement request our team member reach-out to you "
+                    android:textColor="@color/teal_700"
+                    android:textSize="@dimen/sub_line"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:orientation="horizontal"
+                    >
+                    <LinearLayout
+                        android:id="@+id/Designer_layout"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:gravity="center"
+                        android:layout_marginEnd="5dp"
+                        android:background="@drawable/active_feild"
+                        >
+                        <TextView
+                            android:id="@+id/Designer_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/purple_200"
+                            android:text="Designer"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/Work_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:gravity="center"
+                        android:layout_marginStart="5dp"
+                        android:background="@drawable/disactive_feild"
+                        >
+                        <TextView
+                            android:id="@+id/Work_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Work"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/createRequirementBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:elevation="5pt"
+                    android:gravity="center"
+                    android:background="@drawable/button_background"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Create Requirement"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/button"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:padding="8dp"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:gravity="bottom"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Requirement request History"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10pt"
+                        android:textColor="@color/teal_900"
+                        android:textSize="10pt"/>
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/requirements_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:overScrollMode="never"
+                        tools:listitem="@layout/requirement_card" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 
 </FrameLayout>

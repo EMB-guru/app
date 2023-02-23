@@ -37,8 +37,6 @@ class homeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         imageSlider = view.findViewById<ImageSlider>(R.id.imageSlider)
         categoryRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerview);
         NewProductRecyclerView = view.findViewById<RecyclerView>(R.id.new_item_recyclerview)
