@@ -1,11 +1,15 @@
 package com.embguru.design.adupter
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.embguru.design.CategoryPage
+import com.embguru.design.HomePage
 import com.embguru.design.R
 import com.embguru.design.model.ItemsViewModel
 import com.squareup.picasso.Picasso
@@ -30,6 +34,11 @@ class categoryAdupter(private val mList: List<ItemsViewModel>) : RecyclerView.Ad
         // sets the image to the imageview from our itemHolder class
         Picasso.get().load(ItemsViewModel.image).centerCrop().fit().into(holder.imageView)
 
+        holder.imageView.setOnClickListener {v->
+            val changePage = Intent(v.context, CategoryPage::class.java)
+            changePage.putExtra("categoryName", ItemsViewModel.text)
+            v.context.startActivity(changePage)
+        }
         // sets the text to the textview from our itemHolder class
         holder.textView.text = ItemsViewModel.text
 

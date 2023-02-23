@@ -1,9 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".CategoryPage">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#E5DAF9"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="15dp"
+        android:paddingEnd="20dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:onClick="onBackClick"
+            >
+            <ImageView
+                android:layout_width="10pt"
+                android:layout_height="10pt"
+                android:src="@drawable/back_arrow_icon" />
+
+            <TextView
+                android:id="@+id/categoryName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="categoryName"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/purple_200"
+                android:textSize="9pt" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/input_active_background"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:textSize="8pt">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/search_icon" />
+
+        <EditText
+            android:id="@+id/Search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:hint="Search"
+            android:inputType="text"
+            android:textColor="@color/teal_900"
+            android:textColorHint="@color/teal_700"
+            android:textSize="8pt" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categoryRecyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:overScrollMode="never"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        tools:listitem="@layout/view_all_category_card" />
+
+
+</LinearLayout>

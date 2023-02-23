@@ -114,13 +114,7 @@
                         android:textColor="@color/teal_900"
                         android:textSize="10pt" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:text="See all"
-                        android:textColor="@color/teal_900"
-                        android:textSize="7pt" />
+
 
                 </LinearLayout>
 

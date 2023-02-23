@@ -131,7 +131,7 @@ class homeFragment : Fragment() {
         data.add(
             ItemsViewModel(
                 "https://img.cinemablend.com/filter:scale/quill/3/7/0/0/8/e/37008e36e98cd75101cf1347396eac8534871a19.jpg?mw=600",
-                "Jumanji"
+                "Avengers Endgame "
             )
         )
         data.add(
@@ -158,7 +158,8 @@ class homeFragment : Fragment() {
                 "Movie",
                 "Avengers Endgame ",
                 "https://firebasestorage.googleapis.com/v0/b/embgurufirebase.appspot.com/o/Girnar%202.zip?alt=media&token=4dee8e8d-7e5a-443e-88c9-4c1a69868a01",
-                "gs://embgurufirebase.appspot.com"
+                "gs://embgurufirebase.appspot.com",
+                "2w ago"
             )
         )
         data.add(
@@ -166,7 +167,8 @@ class homeFragment : Fragment() {
                 "Movie2",
                 "Jumanji",
                 "https://firebasestorage.googleapis.com/v0/b/book-af6b7.appspot.com/o/A%20Complete%20Guide%20to%20Programming%20in%20C%2B%2B.pdf?alt=media&token=edaf5518-3565-43f5-b5d6-035c9dd26ca8",
-                "gs://book-af6b7.appspot.com"
+                "gs://book-af6b7.appspot.com",
+                "2w ago"
             )
         )
         data.add(
@@ -174,7 +176,8 @@ class homeFragment : Fragment() {
                 "Movie3",
                 "Spider Man",
                 "https://firebasestorage.googleapis.com/v0/b/book-af6b7.appspot.com/o/C%20Language%20Tutorial.pdf?alt=media&token=3ecd52cb-ad13-4dc2-9dad-2a8f5e576fec",
-                "gs://book-af6b7.appspot.com"
+                "gs://book-af6b7.appspot.com",
+                "2w ago"
             )
         )
         data.add(
@@ -182,7 +185,8 @@ class homeFragment : Fragment() {
                 "Movie4",
                 "Venom",
                 "https://live.staticflickr.com/1980/29996141587_7886795726_b.jpg",
-                "gs://embgurufirebase.appspot.com"
+                "gs://embgurufirebase.appspot.com",
+                "2w ago"
             )
         )
         val adapter = folderAdupter(requireActivity(), data)
