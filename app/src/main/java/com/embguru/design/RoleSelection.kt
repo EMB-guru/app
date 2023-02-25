@@ -7,7 +7,12 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
+import com.embguru.design.storage.category
+import com.embguru.design.storage.userData
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class RoleSelection : AppCompatActivity() {
     private var DesignerField: LinearLayout? =null
@@ -16,6 +21,8 @@ class RoleSelection : AppCompatActivity() {
     private var ManufacturerText: TextView? =null
     private var useIcon: ImageView? =null
     private var ManuFactureIcon: ImageView? =null
+    private var Role =1
+    private var userdata : userData? =userData.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,11 +38,30 @@ class RoleSelection : AppCompatActivity() {
         useIcon=findViewById(R.id.useIcon)
         ManuFactureIcon=findViewById(R.id.ManuFactureIcon)
 
+
     }
 
     private fun goOnNextPage(){
         val changePage = Intent(this, CreateAccount::class.java)
         startActivity(changePage)
+    }
+
+    private fun setRole(role:Int){
+        val updates = HashMap<String, Any>()
+        updates["role"] = role
+        userdata?.databaseRef?.updateChildren(updates)?.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                goOnNextPage()
+            } else {
+                // Verification failed
+                Toast.makeText(
+                    applicationContext,
+                    "Your Data is not updated please restart app and try again",
+                    Toast.LENGTH_LONG
+                ).show()
+
+            }
+        }
     }
 
 
@@ -48,6 +74,8 @@ class RoleSelection : AppCompatActivity() {
         ManufacturerField?.background= AppCompatResources.getDrawable(applicationContext,R.drawable.disactive_feild)
         ManuFactureIcon?.background= AppCompatResources.getDrawable(applicationContext,R.drawable.deactive_factory)
         ManufacturerText?.setTextColor(AppCompatResources.getColorStateList(applicationContext,R.color.teal_900))
+        Role=1
+
     }
 
     fun onManufacturerClick(view: View) {
@@ -58,10 +86,11 @@ class RoleSelection : AppCompatActivity() {
         DesignerField?.background= AppCompatResources.getDrawable(applicationContext,R.drawable.disactive_feild)
         useIcon?.background= AppCompatResources.getDrawable(applicationContext,R.drawable.inactive_user_icon)
         DesignerText?.setTextColor(AppCompatResources.getColorStateList(applicationContext,R.color.teal_900))
+        Role=2
     }
 
     fun onSendNextClick(view: View) {
-        goOnNextPage()
+        setRole(Role)
     }
 
 }

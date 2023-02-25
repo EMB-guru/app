@@ -63,6 +63,7 @@ your mobile to confirm"
             app:lineColor="@color/teal_200"
             app:lineWidth="1dp" />
         <LinearLayout
+            android:id="@+id/sendBtn"
             android:onClick="onSendOtpClick"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -71,8 +72,14 @@ your mobile to confirm"
             android:background="@drawable/button_background"
             android:layout_marginTop="40dp"
             >
+            <ProgressBar
+                android:id="@+id/Progress"
+                android:layout_width="10pt"
+                android:layout_height="10pt"
+                />
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/buttonText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Verify"
                 android:textColor="@color/white"

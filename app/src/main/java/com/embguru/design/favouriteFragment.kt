@@ -1,23 +1,29 @@
 package com.embguru.design
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.denzcoskun.imageslider.ImageSlider
 import com.embguru.design.adupter.folderAdupter
-import com.embguru.design.model.folderViewModel
+import com.embguru.design.storage.folderData
+import java.util.*
 
 class favouriteFragment : Fragment() {
     private var boolean_permission = true
     private var REQUEST_PERMISSIONS = 1
     private var NewProductRecyclerView: RecyclerView? = null
+    private var noItemFound: TextView? = null
+    private var FolderData = folderData.getInstance()
+    private var sharedPreferences: SharedPreferences? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,13 +36,18 @@ class favouriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         NewProductRecyclerView = view.findViewById<RecyclerView>(R.id.new_item_recyclerview)
+        noItemFound = view.findViewById(R.id.noItemFound)
+        noItemFound?.visibility = View.GONE
         NewProductRecyclerView?.layoutManager =
             object : LinearLayoutManager(activity) {
                 override fun canScrollVertically() = false
             }
-        setNewInWeek()
+        sharedPreferences = view.context.getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
+
+        setNewInWeek(view.context)
         fn_permission()
     }
+
     private fun fn_permission() {
         if (activity?.let {
                 ContextCompat.checkSelfPermission(
@@ -69,47 +80,33 @@ class favouriteFragment : Fragment() {
         }
     }
 
-    private fun setNewInWeek() {
+    private fun setListItem(context: Context) {
+        val data = FolderData.folderList?.filter { it ->
+            sharedPreferences?.getString(
+                "${it.folderName}_${it.categoryName}",
+                "-1"
+            ) == "0"
+        } // Get data
+        if (data != null) {
+            if(data.isEmpty()){
+                noItemFound?.visibility = View.VISIBLE
+            }else{
+                noItemFound?.visibility = View.GONE
+            }
 
-        val data = ArrayList<folderViewModel>()
-        data.add(
-            folderViewModel(
-                "Movie",
-                "Avengers Endgame ",
-                "https://firebasestorage.googleapis.com/v0/b/embgurufirebase.appspot.com/o/Girnar%202.zip?alt=media&token=4dee8e8d-7e5a-443e-88c9-4c1a69868a01",
-                "gs://embgurufirebase.appspot.com",
-            "2w ago"
-            )
-        )
-        data.add(
-            folderViewModel(
-                "Movie2",
-                "Jumanji",
-                "https://firebasestorage.googleapis.com/v0/b/book-af6b7.appspot.com/o/A%20Complete%20Guide%20to%20Programming%20in%20C%2B%2B.pdf?alt=media&token=edaf5518-3565-43f5-b5d6-035c9dd26ca8",
-                "gs://book-af6b7.appspot.com",
-                "2w ago"
-            )
-        )
-        data.add(
-            folderViewModel(
-                "Movie3",
-                "Spider Man",
-                "https://firebasestorage.googleapis.com/v0/b/book-af6b7.appspot.com/o/C%20Language%20Tutorial.pdf?alt=media&token=3ecd52cb-ad13-4dc2-9dad-2a8f5e576fec",
-                "gs://book-af6b7.appspot.com",
-                "2w ago"
-            )
-        )
-        data.add(
-            folderViewModel(
-                "Movie4",
-                "Venom",
-                "https://live.staticflickr.com/1980/29996141587_7886795726_b.jpg",
-                "gs://embgurufirebase.appspot.com",
-                "2w ago"
-            )
-        )
-        val adapter = folderAdupter(requireActivity(), data)
+        }
+        val adapter = data?.let { folderAdupter(context, it) }
+
         NewProductRecyclerView?.adapter = adapter
+    }
+
+    private fun setNewInWeek(context: Context) {
+        setListItem(context)
+        FolderData.addObserver(object : Observer {
+            override fun update(o: Observable?, arg: Any?) {
+                setListItem(context)
+            }
+        })
     }
 
 }

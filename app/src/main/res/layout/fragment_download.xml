@@ -21,20 +21,34 @@
             android:background="#E5DAF9"
             android:orientation="horizontal"
             android:gravity="center_vertical">
-            <ImageView
-                android:layout_width="10pt"
-                android:layout_height="10pt"
-                android:src="@drawable/back_arrow_icon"/>
-            <TextView
+            <LinearLayout
+                android:id="@+id/backBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/purple_200"
-                android:textSize="9pt"
-                android:text="Favourite"/>
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/purple_200"
+                    android:textSize="9pt"
+                    android:text="Download"/>
+            </LinearLayout>
+
 
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/noItemFound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Oops! No Item found"
+            android:textColor="@color/teal_900"
+            android:textSize="7pt"
+            android:gravity="center"
+            android:layout_marginTop="10pt"
+            />
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"

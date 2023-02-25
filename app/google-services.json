@@ -1,18 +1,27 @@
 {
   "project_info": {
     "project_number": "336362881062",
+    "firebase_url": "https://embgurufirebase-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "embgurufirebase",
     "storage_bucket": "embgurufirebase.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:336362881062:android:a0e26b929ff2cf74f8e6e7",
+        "mobilesdk_app_id": "1:336362881062:android:259c07912a326a42f8e6e7",
         "android_client_info": {
           "package_name": "com.embguru.design"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "336362881062-4051ejvtm3unlakm3lcok0ch0ennbol6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.embguru.design",
+            "certificate_hash": "fdc9d83a5c4c315ffd2a7a1dc45114415452c59f"
+          }
+        },
         {
           "client_id": "336362881062-2opbsb1c4ic06ta6sp23qs3a25nj1lqr.apps.googleusercontent.com",
           "client_type": 3

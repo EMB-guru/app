@@ -4,6 +4,7 @@ import android.app.DownloadManager
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
@@ -20,6 +21,7 @@ import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.embguru.design.BuildConfig
 import com.embguru.design.R
+import com.embguru.design.helper.getDatediff
 import com.embguru.design.model.folderViewModel
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -31,6 +33,8 @@ import java.io.File
 class shortFolderAdupter(private val context: Context, private val mList: List<folderViewModel>) :
     RecyclerView.Adapter<shortFolderAdupter.ViewHolder>() {
     private var Extention = ".zip"
+    private var DateCal = getDatediff()
+    private val sharedPreferences: SharedPreferences = context.getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
 
     // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -68,13 +72,27 @@ class shortFolderAdupter(private val context: Context, private val mList: List<f
 
 
         holder.folderName.text = ItemsViewModel.folderName
-        holder.time.text = ItemsViewModel.time
+        holder.time.text = DateCal.getTimeDifference(ItemsViewModel.time)
 
+        val value = sharedPreferences.getString("${ItemsViewModel.folderName}_${ItemsViewModel.categoryName}", "-1")
+        if(value=="-1")
+        {
+            holder.favoriteFlag = false
+            holder.favorite.setImageResource(R.drawable.inactive_fav_icon)
+        } else {
+            holder.favoriteFlag = true
+            holder.favorite.setImageResource(R.drawable.active_favorite_icon)
+        }
         holder.favorite.setOnClickListener {
+            val editor = sharedPreferences.edit()
             if (holder.favoriteFlag) {
+                editor.putString("${ItemsViewModel.folderName}_${ItemsViewModel.categoryName}", "-1")
+                editor.apply()
                 holder.favoriteFlag = false
                 holder.favorite.setImageResource(R.drawable.inactive_fav_icon)
             } else {
+                editor.putString("${ItemsViewModel.folderName}_${ItemsViewModel.categoryName}", "0")
+                editor.apply()
                 holder.favoriteFlag = true
                 holder.favorite.setImageResource(R.drawable.active_favorite_icon)
             }
@@ -181,13 +199,7 @@ class shortFolderAdupter(private val context: Context, private val mList: List<f
         pdfOpenIntent.flags =
             Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
 
-        Log.d(
-            ContentValues.TAG, "data received:" +
-                    "uri = $downloadedFilepath\n" +
-                    "extension = zip" +
-                    "path = ${downloadedFile.absolutePath}\n" +
-                    "size = ${downloadedFile.totalSpace} "
-        )
+
         CoroutineScope(Dispatchers.Main).launch {
             context.startActivity(pdfOpenIntent)
         }

@@ -1,104 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
-    android:gravity="center_horizontal"
     tools:context=".CreateAccount">
 
     <LinearLayout
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="100dp"
-        android:background="@drawable/logo_icon" />
-    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="30dp"
+        android:layout_height="match_parent"
         android:gravity="center_horizontal"
-        android:layout_marginEnd="30dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create  Account"
-            android:textStyle="bold"
-            android:textColor="@color/teal_900"
-            android:textSize="10pt"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Please enter correct Data. Your Data is secured by EGD   "
-            android:gravity="center"
-            android:layout_marginEnd="50dp"
-            android:layout_marginStart="50dp"
-            android:textColor="@color/teal_700"
-            android:textSize="@dimen/sub_line"
-            />
-
-        <EditText
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/input_background"
-            android:hint="Your Full Name"
-            android:inputType="text"
-            android:textColor="@color/teal_900"
-            android:textColorHint="@color/teal_700"
-            android:padding="12dp"
-            android:textSize="8pt"
-            android:layout_marginTop="40dp"/>
-        <EditText
-            android:id="@+id/email"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/input_background"
-            android:hint="Email ID"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/teal_900"
-            android:textColorHint="@color/teal_700"
-            android:padding="12dp"
-            android:textSize="8pt"
-            android:layout_marginTop="10dp"/>
-        <EditText
-            android:id="@+id/mobileNumber"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/input_background"
-            android:hint="Year of experience"
-            android:inputType="number"
-            android:textColor="@color/teal_900"
-            android:textColorHint="@color/teal_700"
-            android:padding="12dp"
-            android:textSize="8pt"
-            android:layout_marginTop="10dp"/>
-
+        android:orientation="vertical">
 
         <LinearLayout
-                android:onClick="onSendNextClick"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:background="@drawable/button_background"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_marginTop="100dp"
-            >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Next"
-                android:textColor="@color/white"
-                android:textSize="@dimen/button"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:padding="8dp"
-                />
-        </LinearLayout>
+            android:background="@drawable/logo_icon" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create  Account"
+                android:textColor="@color/teal_900"
+                android:textSize="10pt"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                android:gravity="center"
+                android:text="Please enter correct Data. Your Data is secured by EGD   "
+                android:textColor="@color/teal_700"
+                android:textSize="@dimen/sub_line" />
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/input_background"
+                android:hint="Your Full Name"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/teal_900"
+                android:textColorHint="@color/teal_700"
+                android:textSize="8pt" />
+
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/input_background"
+                android:hint="Email ID"
+                android:inputType="textEmailAddress"
+                android:padding="12dp"
+                android:textColor="@color/teal_900"
+                android:textColorHint="@color/teal_700"
+                android:textSize="8pt" />
+
+            <EditText
+                android:id="@+id/mobileNumber"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/input_background"
+                android:hint="Year of experience"
+                android:inputType="number"
+                android:padding="12dp"
+                android:textColor="@color/teal_900"
+                android:textColorHint="@color/teal_700"
+                android:textSize="8pt" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="100dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:gravity="center"
+                android:onClick="onSendNextClick">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="Next"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/button"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+
+</RelativeLayout>

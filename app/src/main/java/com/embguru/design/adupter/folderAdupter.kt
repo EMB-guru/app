@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
@@ -35,6 +36,7 @@ import java.io.File
 class folderAdupter(private val context: Context, private val mList: List<folderViewModel>) :
     RecyclerView.Adapter<folderAdupter.ViewHolder>() {
     private var Extention = ".zip"
+    private val sharedPreferences: SharedPreferences = context.getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
 
     // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -48,7 +50,6 @@ class folderAdupter(private val context: Context, private val mList: List<folder
 
     // binds the list items to a view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
         val ItemsViewModel = mList[position]
         val path =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path + File.separator + ItemsViewModel.categoryName+"_"+ItemsViewModel.folderName + Extention
@@ -74,11 +75,27 @@ class folderAdupter(private val context: Context, private val mList: List<folder
         holder.folderName.text = ItemsViewModel.folderName
         holder.categoryName.text = ItemsViewModel.categoryName
 
+        val value = sharedPreferences.getString("${ItemsViewModel.folderName}_${ItemsViewModel.categoryName}", "-1")
+
+        if(value=="-1")
+        {
+            holder.favoriteFlag = false
+            holder.favorite.setImageResource(R.drawable.inactive_fav_icon)
+        } else {
+            holder.favoriteFlag = true
+            holder.favorite.setImageResource(R.drawable.active_favorite_icon)
+        }
+
         holder.favorite.setOnClickListener {
+            val editor = sharedPreferences.edit()
             if (holder.favoriteFlag) {
+                editor.putString("${ItemsViewModel.folderName}_${ItemsViewModel.categoryName}", "-1")
+                editor.apply()
                 holder.favoriteFlag = false
                 holder.favorite.setImageResource(R.drawable.inactive_fav_icon)
             } else {
+                editor.putString("${ItemsViewModel.folderName}_${ItemsViewModel.categoryName}", "0")
+                editor.apply()
                 holder.favoriteFlag = true
                 holder.favorite.setImageResource(R.drawable.active_favorite_icon)
             }

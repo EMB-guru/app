@@ -1,17 +1,28 @@
 package com.embguru.design
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.embguru.design.adupter.folderAdupter
 import com.embguru.design.adupter.requirementAdupter
 import com.embguru.design.model.requirementViewModel
+import com.embguru.design.storage.folderData
+import com.embguru.design.storage.requirementData
+import com.embguru.design.storage.userData
+import com.google.firebase.database.FirebaseDatabase
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class RequrmentFragment : Fragment() {
 
@@ -21,8 +32,9 @@ class RequrmentFragment : Fragment() {
     private var Designer_text: TextView? = null
     private var Work_layout: LinearLayout? = null
     private var Work_text: TextView? = null
-
-
+    private var flag = true
+    private var userdata: userData? = userData.getInstance()
+    private val requirementList = requirementData.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,56 +64,140 @@ class RequrmentFragment : Fragment() {
             onWorkButtonActive()
         }
         createRequirementBtn?.setOnClickListener {
-            crateRequirement()
+            crateRequirement(view.context)
         }
     }
 
     private fun setRequirement() {
 
-        val data = ArrayList<requirementViewModel>()
-        data.add(
-            requirementViewModel(
-                "ID : hcg3rrfd35",
-                "12/10/2022 10:30 Am",
-                "Requirement of Designer",
-                "Pending"
+        requirements_recyclerview?.adapter = requirementList.requirementList?.let {
+            requirementAdupter(
+                it
             )
-        )
-        data.add(
-            requirementViewModel(
-                "ID : hcg3rrfeyfdg",
-                "12/10/2022 10:30 Pm",
-                "Requirement of Work",
-                "Pending"
-            )
-        )
-        data.add(
-            requirementViewModel(
-                "ID : hcg3rrfd35",
-                "12/10/2022 10:30 Am",
-                "Requirement of Designer",
-                "Viewed"
-            )
-        )
-        val adapter = requirementAdupter(data)
-        requirements_recyclerview?.adapter = adapter
+        }
+        Log.e("UpdateLog", requirementList.requirementList.toString())
+        requirementList.addObserver(object : Observer {
+            override fun update(o: Observable?, arg: Any?) {
+                requirements_recyclerview?.adapter = requirementList.requirementList?.let {
+                    requirementAdupter(
+                        it
+                    )
+                }
+            }
+        })
     }
 
-    private fun onDesignButtonActive(){
-        Designer_layout?.background= AppCompatResources.getDrawable(requireActivity().application,R.drawable.active_feild)
-        Designer_text?.setTextColor(AppCompatResources.getColorStateList(requireActivity().application,R.color.purple_200))
-        Work_layout?.background= AppCompatResources.getDrawable(requireActivity().application,R.drawable.disactive_feild)
-        Work_text?.setTextColor(AppCompatResources.getColorStateList(requireActivity().application,R.color.teal_900))
+    private fun onDesignButtonActive() {
+        Designer_layout?.background =
+            AppCompatResources.getDrawable(requireActivity().application, R.drawable.active_feild)
+        Designer_text?.setTextColor(
+            AppCompatResources.getColorStateList(
+                requireActivity().application,
+                R.color.purple_200
+            )
+        )
+        Work_layout?.background = AppCompatResources.getDrawable(
+            requireActivity().application,
+            R.drawable.disactive_feild
+        )
+        Work_text?.setTextColor(
+            AppCompatResources.getColorStateList(
+                requireActivity().application,
+                R.color.teal_900
+            )
+        )
+        flag = true
     }
 
-    private fun onWorkButtonActive(){
-        Work_layout?.background= AppCompatResources.getDrawable(requireActivity().application,R.drawable.active_feild)
-        Work_text?.setTextColor(AppCompatResources.getColorStateList(requireActivity().application,R.color.purple_200))
-        Designer_layout?.background= AppCompatResources.getDrawable(requireActivity().application,R.drawable.disactive_feild)
-        Designer_text?.setTextColor(AppCompatResources.getColorStateList(requireActivity().application,R.color.teal_900))
+    private fun onWorkButtonActive() {
+        Work_layout?.background =
+            AppCompatResources.getDrawable(requireActivity().application, R.drawable.active_feild)
+        Work_text?.setTextColor(
+            AppCompatResources.getColorStateList(
+                requireActivity().application,
+                R.color.purple_200
+            )
+        )
+        Designer_layout?.background = AppCompatResources.getDrawable(
+            requireActivity().application,
+            R.drawable.disactive_feild
+        )
+        Designer_text?.setTextColor(
+            AppCompatResources.getColorStateList(
+                requireActivity().application,
+                R.color.teal_900
+            )
+        )
+        flag = false
+
+
     }
 
-    private fun crateRequirement(){
+    private fun AddData(){
+        val updates = HashMap<String, Any>()
+        if (flag) {
+            updates["name"] = "Designer"
+        } else {
+            updates["name"] = "Work"
+        }
+        updates["date"] = Date().toString()
+        updates["status"] = "Pending"
+        updates["mobileNumber"] = "${userdata?.phoneNumber}"
+
+        val requestRef = FirebaseDatabase.getInstance().reference.child("request")
+        requestRef.push().setValue(updates).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(
+                    context,
+                    "Your request is created. our team come back to you soon",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                // Verification failed
+                Toast.makeText(
+                    context,
+                    "Something went wrong try again",
+                    Toast.LENGTH_LONG
+                ).show()
+
+            }
+        }
+    }
+
+    private fun crateRequirement(context: Context) {
+        var openRequest:  List<requirementViewModel>?= null
+        openRequest = if (flag) {
+            requirementList.requirementList?.filter { it->it.name=="Requirement of Designer" && it.status == "Pending" }
+        } else {
+            requirementList.requirementList?.filter {  it->it.name=="Requirement of Work" && it.status == "Pending"}
+
+        }
+
+
+        if (openRequest != null) {
+            if(openRequest.isEmpty())
+            {
+                AddData()
+            }else{
+                if (flag) {
+                    Toast.makeText(
+                        context,
+                        "Your request for Designer is already open ",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    Toast.makeText(
+                        context,
+                        "Your request for Work is already open ",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+            }
+        }else{
+            AddData()
+        }
+
 
     }
 

@@ -2,22 +2,35 @@ package com.embguru.design
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.embguru.design.adupter.categoryAdupter
 import com.embguru.design.adupter.categoryListAdupter
 import com.embguru.design.adupter.folderAdupter
 import com.embguru.design.adupter.viewAllCategoryAdupter
 import com.embguru.design.model.categoryListModel
 import com.embguru.design.model.folderViewModel
 import com.embguru.design.model.viewAllCategoryModel
+import com.embguru.design.storage.category
+import com.embguru.design.storage.folderData
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CategoryPage : AppCompatActivity() {
     private var categoryName: TextView? = null
+    private var noItemFound: TextView? = null
+    private var Search_View: LinearLayout? = null
     private var Search: EditText? = null
     private var categoryRecyclerview: RecyclerView? = null
+    private var FolderData = folderData.getInstance()
+    private var SearchText = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +40,10 @@ class CategoryPage : AppCompatActivity() {
 
     private fun define() {
         categoryName = findViewById(R.id.categoryName)
+        noItemFound = findViewById(R.id.noItemFound)
+        Search_View = findViewById(R.id.Search_View)
+        Search_View?.visibility = View.GONE
+        noItemFound?.visibility = View.GONE
         categoryName?.text =intent.getStringExtra("categoryName").toString()
         Search = findViewById(R.id.Search)
         categoryRecyclerview = findViewById(R.id.categoryRecyclerview)
@@ -36,79 +53,67 @@ class CategoryPage : AppCompatActivity() {
                 override fun canScrollVertically() = true
             }
         setList()
+
+        Search?.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                SearchText = s.toString()
+                setUpList()
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+
+
     }
 
+    private fun setUpList(){
+        val allFolderList = FolderData.folderList?.filter { it.categoryName ==intent.getStringExtra("categoryName").toString()} // Get data
+        val mySet = mutableSetOf<String>()
+        if (allFolderList != null) {
+            for (item in allFolderList) {
+                mySet.add(item.type)
+            }
+        }
+        val data = ArrayList<viewAllCategoryModel>()
+
+        for (item in mySet) {
+            if (allFolderList != null) {
+                data.add(
+                    viewAllCategoryModel(
+                        item,
+                        allFolderList.filter { it.type== item && (SearchText=="" || it.folderName.lowercase(Locale.ROOT).contains(SearchText.lowercase(Locale.ROOT)) || it.categoryName.lowercase(Locale.ROOT).contains(SearchText.lowercase(Locale.ROOT)) )} as ArrayList<folderViewModel>
+                    )
+                )
+            }
+        }
+
+        val filterData = data.filter { it.list.size != 0 }
+
+        if(filterData.isNotEmpty())
+        {
+            Search_View?.visibility = View.VISIBLE
+            noItemFound?.visibility = View.GONE
+        }
+        else{
+            Search_View?.visibility = View.VISIBLE
+            noItemFound?.visibility = View.VISIBLE
+        }
+
+        val adapter = viewAllCategoryAdupter(applicationContext,data.filter { it.list.size!=0 })
+        categoryRecyclerview?.adapter = adapter
+    }
 
     private fun setList() {
+        setUpList()
+        FolderData.addObserver(object : Observer {
+            override fun update(o: Observable?, arg: Any?) {
+                setUpList()
+            }
+        })
 
-        val data = ArrayList<viewAllCategoryModel>()
-        val dataList = ArrayList<folderViewModel>()
-        dataList.add(
-            folderViewModel(
-                "Movie",
-                "Folder 1",
-                "https://firebasestorage.googleapis.com/v0/b/embgurufirebase.appspot.com/o/Girnar%202.zip?alt=media&token=4dee8e8d-7e5a-443e-88c9-4c1a69868a01",
-                "gs://embgurufirebase.appspot.com",
-                "2W ago"
-            )
-        )
-        dataList.add(
-            folderViewModel(
-                "Movie2",
-                "Folder 2",
-                "https://firebasestorage.googleapis.com/v0/b/book-af6b7.appspot.com/o/A%20Complete%20Guide%20to%20Programming%20in%20C%2B%2B.pdf?alt=media&token=edaf5518-3565-43f5-b5d6-035c9dd26ca8",
-                "gs://book-af6b7.appspot.com",
-                "3W ago"
-            )
-        )
-        dataList.add(
-            folderViewModel(
-                "Movie3",
-                "Folder 3",
-                "https://firebasestorage.googleapis.com/v0/b/book-af6b7.appspot.com/o/C%20Language%20Tutorial.pdf?alt=media&token=3ecd52cb-ad13-4dc2-9dad-2a8f5e576fec",
-                "gs://book-af6b7.appspot.com",
-                "4W ago"
-            )
-        )
-        dataList.add(
-            folderViewModel(
-                "Movie4",
-                "Folder 4",
-                "https://live.staticflickr.com/1980/29996141587_7886795726_b.jpg",
-                "gs://embgurufirebase.appspot.com",
-                "5W ago"
-            )
-        )
-        data.add(
-            viewAllCategoryModel(
-                "Sadi",
-                dataList
-            )
-        )
-
-        data.add(
-            viewAllCategoryModel(
-                "Lehng",
-                dataList
-            )
-        )
-
-        data.add(
-            viewAllCategoryModel(
-                "Kurta",
-                dataList
-            )
-        )
-
-        data.add(
-            viewAllCategoryModel(
-                "Dupatta",
-                dataList
-            )
-        )
-
-        val adapter = viewAllCategoryAdupter(applicationContext,data)
-        categoryRecyclerview?.adapter = adapter
     }
 
     public fun onBackClick(view: View){

@@ -32,7 +32,6 @@ class HomePage : AppCompatActivity() {
                 R.id.Favourite->setCurrentFragment(favouriteFragment())
                 R.id.Requirements->setCurrentFragment(RequrmentFragment())
                 R.id.Downloads->setCurrentFragment(DownloadFragment())
-
             }
             true
         }

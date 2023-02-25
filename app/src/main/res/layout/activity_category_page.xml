@@ -43,6 +43,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/Search_View"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -71,6 +72,17 @@
             android:textSize="8pt" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/noItemFound"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Oops! No Item found"
+        android:textColor="@color/teal_900"
+        android:textSize="7pt"
+        android:gravity="center"
+        android:layout_marginTop="10pt"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/categoryRecyclerview"

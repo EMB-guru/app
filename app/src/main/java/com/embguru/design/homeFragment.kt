@@ -1,22 +1,33 @@
 package com.embguru.design
 
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.denzcoskun.imageslider.ImageSlider
 import com.denzcoskun.imageslider.constants.ScaleTypes
-import com.denzcoskun.imageslider.models.SlideModel
 import com.embguru.design.adupter.categoryAdupter
 import com.embguru.design.adupter.folderAdupter
-import com.embguru.design.model.ItemsViewModel
-import com.embguru.design.model.folderViewModel
+import com.embguru.design.helper.getDatediff
+import com.embguru.design.storage.appData
+import com.embguru.design.storage.category
+import com.embguru.design.storage.folderData
+import com.google.firebase.auth.FirebaseAuth
+import java.util.*
 
 
 class homeFragment : Fragment() {
@@ -25,6 +36,16 @@ class homeFragment : Fragment() {
     private var imageSlider: ImageSlider? = null
     private var categoryRecyclerView: RecyclerView? = null
     private var NewProductRecyclerView: RecyclerView? = null
+    private val APPDATA = appData.getInstance()
+    private val categoryData = category.getInstance()
+    private val folder = folderData.getInstance()
+    private val DateClass = getDatediff()
+    private var SearchText = ""
+    private var Search: EditText? = null
+    private var Search_View: LinearLayout? = null
+    private var logOut: LinearLayout? = null
+    private var noItemFound: TextView? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,9 +70,34 @@ class homeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
+        Search = view.findViewById(R.id.Search)
+        noItemFound = view.findViewById(R.id.noItemFound)
+        Search_View = view.findViewById(R.id.Search_View)
+        logOut = view.findViewById(R.id.logOut)
+
+        logOut?.setOnClickListener {
+            val auth = FirebaseAuth.getInstance()
+            auth.signOut()
+            val changePage = Intent(view.context, Login::class.java)
+            startActivity(changePage)
+            requireActivity().finish()
+        }
+
+
+
+        Search?.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                SearchText = s.toString()
+                setNewInWeekList(view.context)
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
         setImages()
         setCategory()
-        setNewInWeek()
+        setNewInWeek(view.context)
         fn_permission()
     }
 
@@ -87,110 +133,57 @@ class homeFragment : Fragment() {
         }
     }
 
+
     private fun setImages() {
-
-        val imageList = ArrayList<SlideModel>()
-
-        imageList.add(
-            SlideModel(
-                "https://images.immediate.co.uk/production/volatile/sites/3/2019/04/Avengers-Endgame-Banner-2-de7cf60.jpg?quality=90&resize=620,413",
-                "Avengers Endgame"
-            )
-        )
-        imageList.add(
-            SlideModel(
-                "https://img.cinemablend.com/filter:scale/quill/3/7/0/0/8/e/37008e36e98cd75101cf1347396eac8534871a19.jpg?mw=600",
-                "Jumanji"
-            )
-        )
-        imageList.add(
-            SlideModel(
-                "https://www.adgully.com/img/800/201711/spider-man-homecoming-banner.jpg",
-                "Spider Man"
-            )
-        )
-        imageList.add(
-            SlideModel(
-                "https://live.staticflickr.com/1980/29996141587_7886795726_b.jpg",
-                "Venom"
-            )
-        )
-
-        imageSlider?.setImageList(imageList, ScaleTypes.CENTER_CROP)
+        APPDATA.Poster?.let { imageSlider?.setImageList(it, ScaleTypes.CENTER_CROP) }
+        APPDATA.addObserver(object : Observer {
+            override fun update(o: Observable?, arg: Any?) {
+                APPDATA.Poster?.let { imageSlider?.setImageList(it, ScaleTypes.CENTER_CROP) }
+            }
+        })
     }
 
-    private fun setCategory() {
-
-        val data = ArrayList<ItemsViewModel>()
-        data.add(
-            ItemsViewModel(
-                "https://images.immediate.co.uk/production/volatile/sites/3/2019/04/Avengers-Endgame-Banner-2-de7cf60.jpg?quality=90&resize=620,413",
-                "Avengers Endgame "
-            )
-        )
-        data.add(
-            ItemsViewModel(
-                "https://img.cinemablend.com/filter:scale/quill/3/7/0/0/8/e/37008e36e98cd75101cf1347396eac8534871a19.jpg?mw=600",
-                "Avengers Endgame "
-            )
-        )
-        data.add(
-            ItemsViewModel(
-                "https://www.adgully.com/img/800/201711/spider-man-homecoming-banner.jpg",
-                "Spider Man"
-            )
-        )
-        data.add(
-            ItemsViewModel(
-                "https://live.staticflickr.com/1980/29996141587_7886795726_b.jpg",
-                "Venom"
-            )
-        )
-        val adapter = categoryAdupter(data)
+    private fun setCategoryList() {
+        val data = categoryData.categoryData // Get data
+        val adapter = data?.let { categoryAdupter(it) }
         categoryRecyclerView?.adapter = adapter
     }
 
-    private fun setNewInWeek() {
+    private fun setCategory() {
+        setCategoryList()
+        categoryData.addObserver(object : Observer {
+            override fun update(o: Observable?, arg: Any?) {
+                setCategoryList()
+            }
+        })
+    }
 
-        val data = ArrayList<folderViewModel>()
-        data.add(
-            folderViewModel(
-                "Movie",
-                "Avengers Endgame ",
-                "https://firebasestorage.googleapis.com/v0/b/embgurufirebase.appspot.com/o/Girnar%202.zip?alt=media&token=4dee8e8d-7e5a-443e-88c9-4c1a69868a01",
-                "gs://embgurufirebase.appspot.com",
-                "2w ago"
-            )
-        )
-        data.add(
-            folderViewModel(
-                "Movie2",
-                "Jumanji",
-                "https://firebasestorage.googleapis.com/v0/b/book-af6b7.appspot.com/o/A%20Complete%20Guide%20to%20Programming%20in%20C%2B%2B.pdf?alt=media&token=edaf5518-3565-43f5-b5d6-035c9dd26ca8",
-                "gs://book-af6b7.appspot.com",
-                "2w ago"
-            )
-        )
-        data.add(
-            folderViewModel(
-                "Movie3",
-                "Spider Man",
-                "https://firebasestorage.googleapis.com/v0/b/book-af6b7.appspot.com/o/C%20Language%20Tutorial.pdf?alt=media&token=3ecd52cb-ad13-4dc2-9dad-2a8f5e576fec",
-                "gs://book-af6b7.appspot.com",
-                "2w ago"
-            )
-        )
-        data.add(
-            folderViewModel(
-                "Movie4",
-                "Venom",
-                "https://live.staticflickr.com/1980/29996141587_7886795726_b.jpg",
-                "gs://embgurufirebase.appspot.com",
-                "2w ago"
-            )
-        )
-        val adapter = folderAdupter(requireActivity(), data)
-        NewProductRecyclerView?.adapter = adapter
+    private fun setNewInWeekList(context: Context) {
+        val filterList = folder.folderList?.filter { it -> DateClass.getTimeDifferenceInDay(it.time) <= 7&& (SearchText=="" || it.folderName.lowercase(Locale.ROOT).contains(SearchText.lowercase(Locale.ROOT)) || it.categoryName.lowercase(Locale.ROOT).contains(SearchText.lowercase(Locale.ROOT)) ) }
+
+        if (filterList != null) {
+            if(filterList.isNotEmpty())
+            {
+                noItemFound?.visibility = View.GONE
+            }else{
+                noItemFound?.visibility = View.VISIBLE
+            }
+            NewProductRecyclerView?.adapter = folderAdupter( context, filterList)
+
+
+        }else{
+            noItemFound?.visibility = View.VISIBLE
+        }
+
+    }
+
+    private fun setNewInWeek(context: Context) {
+        setNewInWeekList(context)
+        folder.addObserver(object : Observer {
+            override fun update(o: Observable?, arg: Any?) {
+                setNewInWeekList(context)
+            }
+        })
     }
 
 
