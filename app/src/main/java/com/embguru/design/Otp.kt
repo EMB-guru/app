@@ -134,7 +134,6 @@ class Otp : AppCompatActivity() {
             val uid = currentUser.uid
             val phoneNumber = currentUser.phoneNumber
             val userData = userData.getInstance()
-            userData.phoneNumber = phoneNumber
             userData.uid = uid
             userData.databaseRef = phoneNumber?.let {
                 FirebaseDatabase.getInstance().getReference("user").child(it)

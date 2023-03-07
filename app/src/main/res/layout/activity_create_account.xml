@@ -60,20 +60,20 @@
                 android:textSize="8pt" />
 
             <EditText
-                android:id="@+id/email"
+                android:id="@+id/mobileNumber"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/input_background"
-                android:hint="Email ID"
-                android:inputType="textEmailAddress"
+                android:hint="Mobile Number"
+                android:inputType="phone"
                 android:padding="12dp"
                 android:textColor="@color/teal_900"
                 android:textColorHint="@color/teal_700"
                 android:textSize="8pt" />
 
             <EditText
-                android:id="@+id/mobileNumber"
+                android:id="@+id/experience"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
@@ -86,7 +86,9 @@
                 android:textSize="8pt" />
 
 
+
             <LinearLayout
+                android:id="@+id/sendBtn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="100dp"
@@ -94,9 +96,14 @@
                 android:background="@drawable/button_background"
                 android:gravity="center"
                 android:onClick="onSendNextClick">
-
+                <ProgressBar
+                    android:id="@+id/Progress"
+                    android:layout_width="10pt"
+                    android:layout_height="10pt"
+                    />
                 <TextView
-                    android:layout_width="match_parent"
+                    android:id="@+id/buttonText"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="8dp"

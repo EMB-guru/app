@@ -101,6 +101,7 @@ after confirmation"
 
 
         <LinearLayout
+            android:id="@+id/sendBtn"
             android:onClick="onSendNextClick"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -109,8 +110,14 @@ after confirmation"
             android:background="@drawable/button_background"
             android:layout_marginTop="100dp"
             >
+            <ProgressBar
+                android:id="@+id/Progress"
+                android:layout_width="10pt"
+                android:layout_height="10pt"
+                />
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/buttonText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Next"
                 android:textColor="@color/white"

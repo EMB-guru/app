@@ -28,7 +28,7 @@
         android:layout_marginStart="30dp"
         android:orientation="vertical"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="60dp">
+        android:layout_marginBottom="100dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,18 +38,18 @@
             android:textColor="@color/teal_900"
             android:textSize="10pt"/>
 
-        <EditText
-            android:id="@+id/mobileNumber"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/input_background"
-            android:hint="Mobile Number"
-            android:inputType="number"
-            android:textColor="@color/teal_900"
-            android:textColorHint="@color/teal_700"
-            android:padding="12dp"
-            android:textSize="8pt"
-            android:layout_marginTop="25dp"/>
+<!--        <EditText-->
+<!--            android:id="@+id/mobileNumber"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_marginTop="25dp"-->
+<!--            android:background="@drawable/input_background"-->
+<!--            android:hint="Mobile Number"-->
+<!--            android:inputType="number"-->
+<!--            android:padding="12dp"-->
+<!--            android:textColor="@color/teal_900"-->
+<!--            android:textColorHint="@color/teal_700"-->
+<!--            android:textSize="8pt" />-->
 
         <LinearLayout
             android:id="@+id/sendBtn"
@@ -59,18 +59,24 @@
             android:layout_weight="1"
             android:gravity="center"
             android:background="@drawable/button_background"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             >
             <ProgressBar
                 android:id="@+id/Progress"
                 android:layout_width="10pt"
                 android:layout_height="10pt"
                 />
+            <ImageView
+                android:id="@+id/GoogleIcon"
+                android:layout_width="10pt"
+                android:layout_height="10pt"
+                android:src="@drawable/google_icon"
+                />
             <TextView
                 android:id="@+id/buttonText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Send OTP"
+                android:text="Sign in with Google"
                 android:textColor="@color/white"
                 android:textSize="@dimen/button"
                 android:gravity="center"

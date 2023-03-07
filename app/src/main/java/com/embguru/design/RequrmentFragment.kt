@@ -30,6 +30,7 @@ class RequrmentFragment : Fragment() {
     private var Designer_layout: LinearLayout? = null
     private var createRequirementBtn: LinearLayout? = null
     private var Designer_text: TextView? = null
+    private var noItemFound: TextView? = null
     private var Work_layout: LinearLayout? = null
     private var Work_text: TextView? = null
     private var flag = true
@@ -54,6 +55,8 @@ class RequrmentFragment : Fragment() {
             }
         Designer_layout = view.findViewById(R.id.Designer_layout)
         Designer_text = view.findViewById(R.id.Designer_text)
+        noItemFound = view.findViewById(R.id.noItemFound)
+        noItemFound?.visibility = View.GONE
         Work_layout = view.findViewById(R.id.Work_layout)
         Work_text = view.findViewById(R.id.Work_text)
         setRequirement()
@@ -68,24 +71,37 @@ class RequrmentFragment : Fragment() {
         }
     }
 
-    private fun setRequirement() {
+    private fun setList() {
 
+        if(requirementList.requirementList==null|| requirementList.requirementList?.size==0)
+        {
+            noItemFound?.visibility = View.VISIBLE
+
+        }else{
+            noItemFound?.visibility = View.GONE
+
+        }
         requirements_recyclerview?.adapter = requirementList.requirementList?.let {
             requirementAdupter(
                 it
             )
         }
+
+    }
+
+
+    private fun setRequirement() {
+
+        setList()
         Log.e("UpdateLog", requirementList.requirementList.toString())
         requirementList.addObserver(object : Observer {
             override fun update(o: Observable?, arg: Any?) {
-                requirements_recyclerview?.adapter = requirementList.requirementList?.let {
-                    requirementAdupter(
-                        it
-                    )
-                }
+                setList()
             }
         })
     }
+
+
 
     private fun onDesignButtonActive() {
         Designer_layout?.background =
@@ -142,7 +158,8 @@ class RequrmentFragment : Fragment() {
         }
         updates["date"] = Date().toString()
         updates["status"] = "Pending"
-        updates["mobileNumber"] = "${userdata?.phoneNumber}"
+        updates["mobileNumber"] = "${userdata?.mobileNumber}"
+        updates["uid"] = "${userdata?.uid}"
 
         val requestRef = FirebaseDatabase.getInstance().reference.child("request")
         requestRef.push().setValue(updates).addOnCompleteListener { task ->

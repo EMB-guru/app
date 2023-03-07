@@ -4,10 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.content.res.AppCompatResources
 import com.embguru.design.storage.category
 import com.embguru.design.storage.userData
@@ -23,6 +20,9 @@ class RoleSelection : AppCompatActivity() {
     private var ManuFactureIcon: ImageView? =null
     private var Role =1
     private var userdata : userData? =userData.getInstance()
+    private var sendBtn: LinearLayout? = null
+    private var Progress: ProgressBar? = null
+    private var buttonText: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,9 +37,39 @@ class RoleSelection : AppCompatActivity() {
         ManufacturerText=findViewById(R.id.ManufacturerText)
         useIcon=findViewById(R.id.useIcon)
         ManuFactureIcon=findViewById(R.id.ManuFactureIcon)
-
+        sendBtn = findViewById(R.id.sendBtn)
+        Progress = findViewById(R.id.Progress)
+        buttonText = findViewById(R.id.buttonText)
+        Progress?.visibility = View.GONE
 
     }
+
+    private fun startLoading() {
+        Progress?.visibility = View.VISIBLE
+        sendBtn?.background =
+            AppCompatResources.getDrawable(applicationContext, R.drawable.disable_button_background)
+        buttonText?.text = "Loading ...."
+        buttonText?.setTextColor(
+            AppCompatResources.getColorStateList(
+                applicationContext,
+                R.color.teal_1000
+            )
+        )
+    }
+
+    private fun stopLoading() {
+        Progress?.visibility = View.GONE
+        sendBtn?.background =
+            AppCompatResources.getDrawable(applicationContext, R.drawable.button_background)
+        buttonText?.text = "Verify"
+        buttonText?.setTextColor(
+            AppCompatResources.getColorStateList(
+                applicationContext,
+                R.color.white
+            )
+        )
+    }
+
 
     private fun goOnNextPage(){
         val changePage = Intent(this, CreateAccount::class.java)
@@ -47,11 +77,14 @@ class RoleSelection : AppCompatActivity() {
     }
 
     private fun setRole(role:Int){
+        startLoading()
         val updates = HashMap<String, Any>()
         updates["role"] = role
         userdata?.databaseRef?.updateChildren(updates)?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 goOnNextPage()
+                stopLoading()
+                finish()
             } else {
                 // Verification failed
                 Toast.makeText(
@@ -59,7 +92,7 @@ class RoleSelection : AppCompatActivity() {
                     "Your Data is not updated please restart app and try again",
                     Toast.LENGTH_LONG
                 ).show()
-
+                stopLoading()
             }
         }
     }

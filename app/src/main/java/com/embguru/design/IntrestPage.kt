@@ -3,13 +3,13 @@ package com.embguru.design
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.content.res.AppCompatResources
 import com.embguru.design.storage.userData
+import java.util.*
+import kotlin.collections.HashMap
 
 class IntrestPage : AppCompatActivity() {
     private var skill1 = false
@@ -35,11 +35,15 @@ class IntrestPage : AppCompatActivity() {
 
     private var userdata: userData? = userData.getInstance()
 
+    private var sendBtn: LinearLayout? = null
+    private var Progress: ProgressBar? = null
+    private var buttonText: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intrest_page)
         define()
+        setInterestList()
     }
 
     private fun define() {
@@ -55,6 +59,12 @@ class IntrestPage : AppCompatActivity() {
         skillFourText = findViewById(R.id.skillFourText)
         skillFiveText = findViewById(R.id.skillFiveText)
         skillSixText = findViewById(R.id.skillSixText)
+
+
+        sendBtn = findViewById(R.id.sendBtn)
+        Progress = findViewById(R.id.Progress)
+        buttonText = findViewById(R.id.buttonText)
+        Progress?.visibility = View.GONE
 
         skillOne?.background =
             AppCompatResources.getDrawable(applicationContext, R.drawable.disactive_feild)
@@ -109,6 +119,50 @@ class IntrestPage : AppCompatActivity() {
     private fun goOnNextPage() {
         val changePage = Intent(this, HomePage::class.java)
         startActivity(changePage)
+    }
+
+    private fun setInterestList() {
+        if (userdata?.role == "1") {
+            skillOneText?.text = userdata?.skill1?.get(0)
+            skillTwoText?.text= userdata?.skill1?.get(1)
+            skillThreeText?.text= userdata?.skill1?.get(2)
+            skillFourText?.text= userdata?.skill1?.get(3)
+            skillFiveText?.text= userdata?.skill1?.get(4)
+            skillSixText?.text= userdata?.skill1?.get(5)
+        } else {
+            skillOneText?.text = userdata?.skill2?.get(0)
+            skillTwoText?.text= userdata?.skill2?.get(1)
+            skillThreeText?.text= userdata?.skill2?.get(2)
+            skillFourText?.text= userdata?.skill2?.get(3)
+            skillFiveText?.text= userdata?.skill2?.get(4)
+            skillSixText?.text= userdata?.skill2?.get(5)
+        }
+    }
+
+    private fun startLoading() {
+        Progress?.visibility = View.VISIBLE
+        sendBtn?.background =
+            AppCompatResources.getDrawable(applicationContext, R.drawable.disable_button_background)
+        buttonText?.text = "Loading ...."
+        buttonText?.setTextColor(
+            AppCompatResources.getColorStateList(
+                applicationContext,
+                R.color.teal_1000
+            )
+        )
+    }
+
+    private fun stopLoading() {
+        Progress?.visibility = View.GONE
+        sendBtn?.background =
+            AppCompatResources.getDrawable(applicationContext, R.drawable.button_background)
+        buttonText?.text = "Verify"
+        buttonText?.setTextColor(
+            AppCompatResources.getColorStateList(
+                applicationContext,
+                R.color.white
+            )
+        )
     }
 
     /** on button Click Handler */
@@ -263,6 +317,7 @@ class IntrestPage : AppCompatActivity() {
     }
 
     fun onSendNextClick(view: View) {
+        startLoading()
         if (skill1 || skill2 || skill3 || skill4 || skill5 || skill6) {
             val updates = HashMap<String, Any>()
             if (skill1)
@@ -278,21 +333,26 @@ class IntrestPage : AppCompatActivity() {
             if (skill6)
                 updates[skillSixText?.text.toString()] = true
 
-            userdata?.databaseRef?.child("skill")?.updateChildren(updates)?.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    goOnNextPage()
-                } else {
-                    // Verification failed
-                    Toast.makeText(
-                        applicationContext,
-                        "Your Otp is not correct please try again",
-                        Toast.LENGTH_LONG
-                    ).show()
+            userdata?.databaseRef?.child("skill")?.updateChildren(updates)
+                ?.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        goOnNextPage()
+                        finish()
+                        stopLoading()
+                    } else {
+                        // Verification failed
+                        Toast.makeText(
+                            applicationContext,
+                            "Your selection is not updated please try again",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        stopLoading()
 
+                    }
                 }
-            }
 
         } else {
+            stopLoading()
             Toast.makeText(
                 applicationContext,
                 "Please Choose Your Skill",

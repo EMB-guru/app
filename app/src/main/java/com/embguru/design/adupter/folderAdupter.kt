@@ -73,7 +73,7 @@ class folderAdupter(private val context: Context, private val mList: List<folder
 
 
         holder.folderName.text = ItemsViewModel.folderName
-        holder.categoryName.text = ItemsViewModel.categoryName
+        holder.categoryName.text = "${ItemsViewModel.type} (${ItemsViewModel.categoryName})"
 
         val value = sharedPreferences.getString("${ItemsViewModel.folderName}_${ItemsViewModel.categoryName}", "-1")
 
