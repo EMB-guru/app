@@ -136,11 +136,13 @@ class homeFragment : Fragment() {
 
     private fun setImages() {
         APPDATA.Poster?.let { imageSlider?.setImageList(it, ScaleTypes.CENTER_CROP) }
-        APPDATA.addObserver(object : Observer {
-            override fun update(o: Observable?, arg: Any?) {
-                APPDATA.Poster?.let { imageSlider?.setImageList(it, ScaleTypes.CENTER_CROP) }
-            }
-        })
+        // Check if the list is empty before setting images
+        if (APPDATA.Poster==null|| APPDATA.Poster?.isEmpty() == true) {
+            imageSlider?.visibility = View.GONE  // Hide imageSlider if list is empty
+        } else {
+            imageSlider?.visibility = View.VISIBLE
+            APPDATA.Poster?.let { imageSlider?.setImageList(it, ScaleTypes.CENTER_CROP) } // Set images if list is not empty
+        }
     }
 
     private fun setCategoryList() {

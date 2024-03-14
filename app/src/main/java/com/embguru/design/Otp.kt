@@ -25,6 +25,7 @@ import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.database.*
 import java.util.concurrent.TimeUnit
+import kotlin.math.log
 
 class Otp : AppCompatActivity() {
     private var Timer: TextView? = null
@@ -176,10 +177,12 @@ class Otp : AppCompatActivity() {
                     if (snapshot.hasChild("poster")) {
                         val imageList = ArrayList<SlideModel>()
                         for (userSnapshot in snapshot.child("poster").children) {
+                            println("Image ${userSnapshot.child("image").value.toString()}");
+                            if (userSnapshot.hasChild("image") && userSnapshot.hasChild("name"))
                             imageList.add(
                                 SlideModel(
-                                    userSnapshot.value.toString(),
-                                    userSnapshot.key
+                                    userSnapshot.child("image").value.toString(),
+                                    userSnapshot.child("name").value.toString()
                                 )
                             )
                         }

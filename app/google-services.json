@@ -68,6 +68,14 @@
           }
         },
         {
+          "client_id": "871502819679-pv2ei5radtqu9n0fh2c1epn8q2an9pbj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.embguru.design",
+            "certificate_hash": "28d14cefe66e038fbc71becf93855709a05558ab"
+          }
+        },
+        {
           "client_id": "871502819679-7b7plmt1f5lae34rup06snf9d8jbl5cp.apps.googleusercontent.com",
           "client_type": 3
         }

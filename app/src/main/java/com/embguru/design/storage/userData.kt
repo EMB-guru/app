@@ -97,12 +97,13 @@ class userData private constructor() {
                         if (snapshot.hasChild("poster")) {
                             val imageList = ArrayList<SlideModel>()
                             for (userSnapshot in snapshot.child("poster").children) {
-                                imageList.add(
-                                    SlideModel(
-                                        userSnapshot.value.toString(),
-                                        userSnapshot.key
+                                if (userSnapshot.hasChild("image") && userSnapshot.hasChild("name"))
+                                    imageList.add(
+                                        SlideModel(
+                                            userSnapshot.child("image").value.toString(),
+                                            userSnapshot.child("name").value.toString()
+                                        )
                                     )
-                                )
                             }
                             APPDATA.setData(imageList)
                         }

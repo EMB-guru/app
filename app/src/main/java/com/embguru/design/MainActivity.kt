@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
              startActivity(changePage)
              finish()
          }
-        }, 3000)
+        }, 1200)
 
 
     }

@@ -26,7 +26,6 @@
             <stringArg name="classpath">
               <args>
                 <arg>$MODULE_DIR$/../../../app/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/R.jar</arg>
-                <arg>$MODULE_DIR$/../../../app/build/intermediates/compile_app_classes_jar/debug/classes.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/94b5254ee0048c0a2f54a723a74c3a20/transformed/jetified-viewbinding-7.4.1-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/28eda2fc8506d9b35f9b672b2da12b42/transformed/jetified-firebase-database-ktx-20.1.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/917243a86b054953409d15afd6541f8a/transformed/jetified-firebase-analytics-ktx-21.2.0-api.jar</arg>
