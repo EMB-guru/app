@@ -164,6 +164,7 @@ class userData private constructor() {
                                     && userSnapshot.hasChild("mobileNumber")
                                     && userSnapshot.hasChild("name")
                                     && userSnapshot.hasChild("status")
+                                    && userSnapshot.hasChild("requirement")
                                 )
                                     requirementList.add(
                                         requirementViewModel(
@@ -172,7 +173,8 @@ class userData private constructor() {
                                                 userSnapshot.child("date").value.toString()
                                             ),
                                             "Requirement of ${userSnapshot.child("name").value.toString()}",
-                                            userSnapshot.child("status").value.toString()
+                                            userSnapshot.child("status").value.toString(),
+                                            userSnapshot.child("requirement").value.toString()
                                         )
                                     )
 

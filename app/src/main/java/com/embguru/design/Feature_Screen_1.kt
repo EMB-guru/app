@@ -7,17 +7,19 @@ import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 
 class Feature_Screen_1 : AppCompatActivity() {
     private var page=1
+    private var image: ImageView? =null
     private var dot1:LinearLayout? =null
     private var dot2:LinearLayout? =null
     private var dot3:LinearLayout? =null
     private var infoHeading:TextView? =null
-    private val titleArray = arrayOf("Get 100% Free Design","Get new designs every week","New Updated Design")
+    private val titleArray = arrayOf("Get 100% Free Design","Get Category Wise\nDesign Folders","Find Your Need Easily")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feature_screen1)
@@ -25,6 +27,7 @@ class Feature_Screen_1 : AppCompatActivity() {
     }
 
     private fun define(){
+        image=findViewById(R.id.featureImage)
         dot1=findViewById(R.id.dot_1)
         dot2=findViewById(R.id.dot_2)
         dot3=findViewById(R.id.dot_3)
@@ -41,14 +44,17 @@ class Feature_Screen_1 : AppCompatActivity() {
             1 -> {
                 dot1?.background= AppCompatResources.getDrawable(applicationContext,R.drawable.active_dot)
                 infoHeading?.text = titleArray[0]
+                image?.setImageResource(R.drawable.feature_1)
             }
             2 -> {
                 dot2?.background= AppCompatResources.getDrawable(applicationContext,R.drawable.active_dot)
                 infoHeading?.text = titleArray[1]
+                image?.setImageResource(R.drawable.feature_2)
             }
             3 -> {
                 dot3?.background= AppCompatResources.getDrawable(applicationContext,R.drawable.active_dot)
                 infoHeading?.text = titleArray[2]
+                image?.setImageResource(R.drawable.feature_3)
             }
             else -> {
                 goOnNextPage()

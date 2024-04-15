@@ -27,6 +27,8 @@ class requirementAdupter(private val mList: List<requirementViewModel>) : Recycl
         holder.name.text=ItemsViewModel.name
         holder.date.text=ItemsViewModel.date
         holder.status.text=ItemsViewModel.status
+        holder.line.text=ItemsViewModel.line
+
     }
 
     // return the number of the items in the list
@@ -40,5 +42,6 @@ class requirementAdupter(private val mList: List<requirementViewModel>) : Recycl
         val name: TextView = itemView.findViewById(R.id.name)
         val date: TextView = itemView.findViewById(R.id.date)
         val status: TextView = itemView.findViewById(R.id.status)
+        val line: TextView = itemView.findViewById(R.id.line)
     }
 }

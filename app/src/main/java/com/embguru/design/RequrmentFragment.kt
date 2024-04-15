@@ -1,5 +1,6 @@
 package com.embguru.design
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -7,9 +8,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -73,11 +77,10 @@ class RequrmentFragment : Fragment() {
 
     private fun setList() {
 
-        if(requirementList.requirementList==null|| requirementList.requirementList?.size==0)
-        {
+        if (requirementList.requirementList == null || requirementList.requirementList?.size == 0) {
             noItemFound?.visibility = View.VISIBLE
 
-        }else{
+        } else {
             noItemFound?.visibility = View.GONE
 
         }
@@ -100,7 +103,6 @@ class RequrmentFragment : Fragment() {
             }
         })
     }
-
 
 
     private fun onDesignButtonActive() {
@@ -149,7 +151,7 @@ class RequrmentFragment : Fragment() {
 
     }
 
-    private fun AddData(){
+    private fun AddData(requirment: String) {
         val updates = HashMap<String, Any>()
         if (flag) {
             updates["name"] = "Designer"
@@ -157,6 +159,7 @@ class RequrmentFragment : Fragment() {
             updates["name"] = "Work"
         }
         updates["date"] = Date().toString()
+        updates["requirement"] = requirment
         updates["status"] = "Pending"
         updates["mobileNumber"] = "${userdata?.mobileNumber}"
         updates["uid"] = "${userdata?.uid}"
@@ -182,20 +185,81 @@ class RequrmentFragment : Fragment() {
     }
 
     private fun crateRequirement(context: Context) {
-        var openRequest:  List<requirementViewModel>?= null
+        val layoutInflater = LayoutInflater.from(requireContext())
+        val dialogView = layoutInflater.inflate(R.layout.dialog_input_layout, null)
+        val saveButton = dialogView.findViewById<Button>(R.id.saveButton)
+        val editText = dialogView.findViewById<EditText>(R.id.editText)
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .setTitle("Enter Requirement")
+        val alertDialog = dialogBuilder.create()
+        // Get the input text
+        val requirement = editText.text.toString().trim()
+        // Save the input to Firebase
+        var openRequest: List<requirementViewModel>? = null
         openRequest = if (flag) {
-            requirementList.requirementList?.filter { it->it.name=="Requirement of Designer" && it.status == "Pending" }
+            requirementList.requirementList?.filter { it -> it.name == "Requirement of Designer" && it.status == "Pending" }
         } else {
-            requirementList.requirementList?.filter {  it->it.name=="Requirement of Work" && it.status == "Pending"}
+            requirementList.requirementList?.filter { it -> it.name == "Requirement of Work" && it.status == "Pending" }
 
+        }
+        // Validate the input
+
+
+        // Set click listener for the save button
+        saveButton.setOnClickListener {
+            // Get the input text
+            val requirement = editText.text.toString().trim()
+
+            // Validate the input
+            if (requirement.isNotEmpty()) {
+                // Save the input to Firebase
+                var openRequest: List<requirementViewModel>? = null
+                openRequest = if (flag) {
+                    requirementList.requirementList?.filter { it -> it.name == "Requirement of Designer" && it.status == "Pending" }
+                } else {
+                    requirementList.requirementList?.filter { it -> it.name == "Requirement of Work" && it.status == "Pending" }
+
+                }
+
+
+                if (openRequest != null) {
+                    if (openRequest!!.isEmpty()) {
+                        AddData(requirement)
+                    } else {
+                        if (flag) {
+                            Toast.makeText(
+                                context,
+                                "Your request for Designer is already open ",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "Your request for Work is already open ",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+
+                    }
+                } else {
+                    AddData(requirement)
+                }
+
+                // Dismiss the dialog
+                alertDialog.dismiss()
+            } else {
+                // Show an error message if input is empty
+                editText.error = "Requirement cannot be empty"
+            }
         }
 
 
         if (openRequest != null) {
-            if(openRequest.isEmpty())
-            {
-                AddData()
-            }else{
+            if (openRequest!!.isEmpty()) {
+                // Show the dialog
+                alertDialog.show()
+            } else {
                 if (flag) {
                     Toast.makeText(
                         context,
@@ -211,10 +275,10 @@ class RequrmentFragment : Fragment() {
                 }
 
             }
-        }else{
-            AddData()
+        } else {
+            // Show the dialog
+            alertDialog.show()
         }
-
 
     }
 

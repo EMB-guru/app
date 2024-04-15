@@ -24,6 +24,7 @@
             <TextView
                 android:id="@+id/Id"
                 android:layout_width="0dp"
+
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="ID : hcg3rrfd35"
@@ -51,17 +52,17 @@
             >
             <TextView
                 android:id="@+id/name"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Requirement of Designer"
                 android:textColor="@color/teal_1000"
                 android:textSize="9pt" />
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="bottom"
-                android:layout_weight="1"
+
                 >
                 <TextView
                     android:id="@+id/status"
@@ -75,7 +76,22 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8pt"
+            >
+            <TextView
+                android:id="@+id/line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/teal_1000"
+                android:textSize="9pt" />
 
+
+        </LinearLayout>
 
 
 
