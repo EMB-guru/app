@@ -32,7 +32,8 @@ class viewAllCategoryAdupter(private val context: Context,private val mList: Lis
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        val adapter = shortFolderAdupter(context,ItemsViewModel.list)
+        val sortedItem=ItemsViewModel.list?.sortedByDescending { it.time }
+        val adapter = sortedItem?.let { shortFolderAdupter(context, it) }
         holder.folder_recyclerview?.adapter = adapter
         holder.name.text=ItemsViewModel.name
     }
