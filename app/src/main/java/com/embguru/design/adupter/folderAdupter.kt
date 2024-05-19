@@ -187,16 +187,20 @@ class folderAdupter(private val context: Context, private val mList: List<folder
                                     })
                                     downloading = false
                                 }
-                                val progress = (bytesDownloaded * 100) / bytesTotal
-                                Log.e("progress", progress.toString())
+                                val progress = (bytesDownloaded.toDouble()  / bytesTotal.toDouble())*100
 
-                                holder.pBar.progress = progress
-                                handler.post(object : Runnable {
-                                    override fun run() {
-                                        holder.Progress.text = "$progress %"
+                                if(progress>0)
+                                {
+                                    holder.pBar.progress = progress.toInt()
+                                    handler.post(object : Runnable {
+                                        override fun run() {
+                                            holder.Progress.text = "${String.format("%.1f", progress)} %"
 
-                                    }
-                                })
+                                        }
+                                    })
+                                }
+
+
 
                             }
                         }
