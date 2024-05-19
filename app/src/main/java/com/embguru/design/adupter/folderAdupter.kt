@@ -1,9 +1,11 @@
 package com.embguru.design.adupter
 
+import android.app.AlertDialog
 import android.app.DownloadManager
-import android.content.ActivityNotFoundException
+import android.app.ProgressDialog
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.database.Cursor
@@ -19,7 +21,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.embguru.design.BuildConfig
@@ -31,12 +32,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
+import java.util.Date
 
 
 class folderAdupter(private val context: Context, private val mList: List<folderViewModel>) :
     RecyclerView.Adapter<folderAdupter.ViewHolder>() {
     private var Extention = ".zip"
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
+    val progressDialog = ProgressDialog(context)
 
     // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -47,6 +50,29 @@ class folderAdupter(private val context: Context, private val mList: List<folder
 
         return ViewHolder(view)
     }
+    private fun showCustomAlertDialog(signedUrl: String, ItemsViewModel: folderViewModel) {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+        builder.setTitle("Important Note")
+        builder.setMessage("This link is valid for 1 minute only. Please access it as soon as possible.")
+        builder.setNegativeButton("Close",
+            DialogInterface.OnClickListener { dialog, which ->
+                // Perform some action on dismiss (optional)
+            })
+        builder.setPositiveButton("Continue",
+            DialogInterface.OnClickListener { dialog, which ->
+                // Perform some action on dismiss (optional)
+                val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_SUBJECT, ItemsViewModel.folderName)
+                    putExtra(Intent.EXTRA_TEXT, "This is the link you want to share: "+signedUrl)
+                }
+
+                context.startActivity(Intent.createChooser(shareIntent, "Share Link"))
+            })
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
+
 
     // binds the list items to a view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -65,6 +91,7 @@ class folderAdupter(private val context: Context, private val mList: List<folder
             holder.downloadBtn.visibility = View.VISIBLE;
 
         }
+        holder.share_layout.visibility = View.VISIBLE
 
 
         holder.pBar.progress = 0
@@ -85,6 +112,8 @@ class folderAdupter(private val context: Context, private val mList: List<folder
             holder.favoriteFlag = true
             holder.favorite.setImageResource(R.drawable.active_favorite_icon)
         }
+        
+        
 
         holder.favorite.setOnClickListener {
             val editor = sharedPreferences.edit()
@@ -106,6 +135,7 @@ class folderAdupter(private val context: Context, private val mList: List<folder
 
                 holder.progressField.visibility = View.VISIBLE;
                 holder.downloadBtn.visibility = View.GONE;
+                holder.share_layout.visibility = View.GONE;
                 val storage = Firebase.storage(ItemsViewModel.firebaseString)
                 val httpsReference = storage.getReferenceFromUrl(ItemsViewModel.folderUrl)
 
@@ -150,6 +180,9 @@ class folderAdupter(private val context: Context, private val mList: List<folder
                                             holder.progressField.visibility = View.GONE
                                             holder.downloadBtn.visibility = View.GONE
                                             holder.view_btn.visibility = View.VISIBLE
+                                            holder.share_layout.visibility = View.VISIBLE
+
+
                                         }
                                     })
                                     downloading = false
@@ -182,9 +215,54 @@ class folderAdupter(private val context: Context, private val mList: List<folder
 
         }
 
+        holder.share_btn.setOnClickListener{
+            genearteLink(ItemsViewModel);
+
+        }
+
+
         holder.view_btn.setOnClickListener {
             openFile(ItemsViewModel.categoryName+"_"+ItemsViewModel.folderName);
         }
+
+    }
+
+    private fun  genearteLink(ItemsViewModel:folderViewModel ) {
+        // Parse the download URL to extract relevant information (optional)
+        // You can extract bucket name and file path based on your URL structure
+        progressDialog.setTitle("Generating Link")
+        progressDialog.setMessage("Please wait...")
+        progressDialog.setCancelable(false) // Optional: Prevent user from dismissing
+
+        progressDialog.show()
+
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_SUBJECT, ItemsViewModel.folderName)
+            putExtra(Intent.EXTRA_TEXT, "This is the link you want to share: "+ItemsViewModel.folderUrl)
+        }
+
+        progressDialog.dismiss()
+        context.startActivity(Intent.createChooser(shareIntent, "Share Link"))
+
+//        val storage = Firebase.storage(ItemsViewModel.firebaseString)
+//        val storageRef = storage.getReferenceFromUrl(ItemsViewModel.folderUrl) // Use downloadUrl directly
+//        val expiresAt = Date().time  // Convert minutes to milliseconds
+//        val task = storageRef.getDownloadUrl()
+//
+//        task.addOnCompleteListener { task ->
+//            if (task.isSuccessful) {
+//                val downloadUrl = task.result
+//
+//                // Build the signed URL with expiration time
+//                val signedUrl = downloadUrl.toString() + "&expires_at=${expiresAt}"
+//
+////                showCustomAlertDialog(signedUrl,ItemsViewModel);
+//                // Use the signedUrl for download or share
+//            } else {
+//                // Handle download URL retrieval failure
+//            }
+//        }
 
     }
 
@@ -225,6 +303,8 @@ class folderAdupter(private val context: Context, private val mList: List<folder
         val folderName: TextView = itemView.findViewById(R.id.folderName)
         val categoryName: TextView = itemView.findViewById(R.id.categoryName)
         val Progress: TextView = itemView.findViewById(R.id.Progress)
+        val share_layout: LinearLayout = itemView.findViewById(R.id.share_layout)
+        val share_btn: ImageView = itemView.findViewById(R.id.share_btn)
         val favorite: ImageView = itemView.findViewById(R.id.favorite)
         val downloadBtn: LinearLayout = itemView.findViewById(R.id.download_btn)
         val view_btn: LinearLayout = itemView.findViewById(R.id.view_btn)

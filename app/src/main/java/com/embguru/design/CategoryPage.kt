@@ -102,7 +102,7 @@ class CategoryPage : AppCompatActivity() {
             noItemFound?.visibility = View.VISIBLE
         }
 
-        val adapter = viewAllCategoryAdupter(applicationContext,data.filter { it.list.size!=0 })
+        val adapter = viewAllCategoryAdupter(this,data.filter { it.list.size!=0 })
         categoryRecyclerview?.adapter = adapter
     }
 

@@ -1,6 +1,7 @@
 package com.embguru.design.adupter
 
 import android.app.DownloadManager
+import android.app.ProgressDialog
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -35,7 +36,7 @@ class shortFolderAdupter(private val context: Context, private val mList: List<f
     private var Extention = ".zip"
     private var DateCal = getDatediff()
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
-
+    val progressDialog = ProgressDialog(context)
     // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // inflates the card_view_design view
@@ -46,10 +47,12 @@ class shortFolderAdupter(private val context: Context, private val mList: List<f
         return ViewHolder(view)
     }
 
+
     // binds the list items to a view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val ItemsViewModel = mList[position]
+
         val path =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path + File.separator + ItemsViewModel.categoryName+"_"+ItemsViewModel.folderName + Extention
         val file = File(path)
@@ -64,7 +67,7 @@ class shortFolderAdupter(private val context: Context, private val mList: List<f
             holder.downloadBtn.visibility = View.VISIBLE;
 
         }
-
+        holder.share_layout.visibility = View.VISIBLE
 
         holder.pBar.progress = 0
         holder.Progress.text = "0 %"
@@ -103,6 +106,7 @@ class shortFolderAdupter(private val context: Context, private val mList: List<f
 
                 holder.progressField.visibility = View.VISIBLE;
                 holder.downloadBtn.visibility = View.GONE;
+                holder.share_layout.visibility = View.GONE;
                 val storage = Firebase.storage(ItemsViewModel.firebaseString)
                 val httpsReference = storage.getReferenceFromUrl(ItemsViewModel.folderUrl)
 
@@ -147,6 +151,7 @@ class shortFolderAdupter(private val context: Context, private val mList: List<f
                                             holder.progressField.visibility = View.GONE
                                             holder.downloadBtn.visibility = View.GONE
                                             holder.view_btn.visibility = View.VISIBLE
+                                            holder.share_layout.visibility = View.VISIBLE
                                         }
                                     })
                                     downloading = false
@@ -179,9 +184,54 @@ class shortFolderAdupter(private val context: Context, private val mList: List<f
 
         }
 
+        holder.share_btn.setOnClickListener{
+            genearteLink(ItemsViewModel);
+
+        }
+
+
         holder.view_btn.setOnClickListener {
             openFile(ItemsViewModel.categoryName+"_"+ItemsViewModel.folderName);
         }
+
+    }
+
+    private fun  genearteLink(ItemsViewModel:folderViewModel ) {
+        // Parse the download URL to extract relevant information (optional)
+        // You can extract bucket name and file path based on your URL structure
+        progressDialog.setTitle("Generating Link")
+        progressDialog.setMessage("Please wait...")
+        progressDialog.setCancelable(false) // Optional: Prevent user from dismissing
+
+        progressDialog.show()
+
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_SUBJECT, ItemsViewModel.folderName)
+            putExtra(Intent.EXTRA_TEXT, "This is the link you want to share: "+ItemsViewModel.folderUrl)
+        }
+
+        progressDialog.dismiss()
+        context.startActivity(Intent.createChooser(shareIntent, "Share Link"))
+
+//        val storage = Firebase.storage(ItemsViewModel.firebaseString)
+//        val storageRef = storage.getReferenceFromUrl(ItemsViewModel.folderUrl) // Use downloadUrl directly
+//        val expiresAt = Date().time  // Convert minutes to milliseconds
+//        val task = storageRef.getDownloadUrl()
+//
+//        task.addOnCompleteListener { task ->
+//            if (task.isSuccessful) {
+//                val downloadUrl = task.result
+//
+//                // Build the signed URL with expiration time
+//                val signedUrl = downloadUrl.toString() + "&expires_at=${expiresAt}"
+//
+////                showCustomAlertDialog(signedUrl,ItemsViewModel);
+//                // Use the signedUrl for download or share
+//            } else {
+//                // Handle download URL retrieval failure
+//            }
+//        }
 
     }
 
@@ -222,6 +272,9 @@ class shortFolderAdupter(private val context: Context, private val mList: List<f
         val progressField: LinearLayout = itemView.findViewById(R.id.progress_field)
         val pBar: ProgressBar = itemView.findViewById(R.id.pBar)
         var favoriteFlag = false
+        val share_layout: LinearLayout = itemView.findViewById(R.id.share_layout)
+        val share_btn: ImageView = itemView.findViewById(R.id.share_btn)
+
 
 
     }
